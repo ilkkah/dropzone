@@ -3,7 +3,7 @@
   "repo": "ilkkah/dropzone",
   "version": "3.7.1",
   "description": "Handles drag and drop of files for you.",
-  "scripts": [ "index.js", "lib/dropzone.js" ],
+  "scripts": [ "index.js", "lib/dropzone.js", "lib/emitter.js" ],
   "styles": [ "downloads/css/basic.css" ],
   "license": "MIT"
 }
