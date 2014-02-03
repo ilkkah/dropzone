@@ -47,8 +47,6 @@ class Dropzone extends Em
     "dragenter"
     "dragover"
     "dragleave"
-    "selectedfiles"
-    "addedfile"
     "removedfile"
     "error"
     "errormultiple"
@@ -117,10 +115,6 @@ class Dropzone extends Em
     # If you're ready to send the file simply call myDropzone.processQueue()
     autoProcessQueue: on
 
-    # A CSS selector or HTML element for the file previews container.
-    # If null, the dropzone element itself will be used
-    previewsContainer: null
-    
 
     # Dictionary
      
@@ -209,19 +203,10 @@ class Dropzone extends Em
     dragover: (e) -> @element.classList.add "dz-drag-hover"
     dragleave: (e) -> @element.classList.remove "dz-drag-hover"
     
-    # Called whenever files are dropped or selected
-    selectedfiles: (files) ->
-      @element.classList.add "dz-started" if @element == @previewsContainer
-
     # Called whenever there are no files left in the dropzone anymore, and the
     # dropzone should be displayed as if in the initial state.
     reset: ->
       @element.classList.remove "dz-started"
-
-    # Called when a file is added to the queue
-    # Receives `file`
-    addedfile: (file) ->
-      file.previewElement = Dropzone.createElement @options.previewTemplate
 
     # Called whenever a file is removed.
     removedfile: (file) ->
@@ -282,19 +267,6 @@ class Dropzone extends Em
 
     maxfilesexceeded: noop
 
-    previewTemplate:  """
-                          <div class="dz-preview dz-file-preview">
-                            <div class="dz-details">
-                              <div class="dz-filename"><span data-dz-name></span></div>
-                              <div class="dz-size" data-dz-size></div>
-                              <img data-dz-thumbnail />
-                            </div>
-                            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
-                            <div class="dz-success-mark"><span>✔</span></div>
-                            <div class="dz-error-mark"><span>✘</span></div>
-                            <div class="dz-error-message"><span data-dz-errormessage></span></div>
-                          </div>
-                          """
   # global utility
   extend = (target, objects...) ->
     for object in objects
@@ -403,7 +375,6 @@ class Dropzone extends Em
         @hiddenFileInput.addEventListener "change", =>
           files = @hiddenFileInput.files
           if files.length
-            @emit "selectedfiles", files
             @handleFiles files
           setupHiddenFileInput()
       setupHiddenFileInput()
@@ -573,7 +544,6 @@ class Dropzone extends Em
     @emit "drop", e
 
     files = e.dataTransfer.files
-    @emit "selectedfiles", files
 
     # Even if it's a folder, files.length will contain the folders.
     if files.length
@@ -630,8 +600,6 @@ class Dropzone extends Em
     @files.push file
 
     file.status = Dropzone.ADDED
-
-    @emit "addedfile", file
 
     @accept file, (error) =>
       if error

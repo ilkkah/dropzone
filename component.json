@@ -4,6 +4,6 @@
   "version": "3.7.1",
   "description": "Handles drag and drop of files for you.",
   "scripts": [ "index.js", "lib/dropzone.js", "lib/emitter.js" ],
-  "styles": [ "downloads/css/basic.css" ],
+  "styles": [ "downloads/css/basic.css", "downloads/css/stylus/basic.styl", "downloads/css/stylus/dropzone.styl" ],
   "license": "MIT"
 }
